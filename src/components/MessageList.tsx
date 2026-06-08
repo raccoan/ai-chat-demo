@@ -21,6 +21,7 @@ function MessageList(props: MessageListProps) {
           key={index}
           role={item.role}
           content={item.content}
+          timestamp={item.timestamp}
         />
       ))}
 

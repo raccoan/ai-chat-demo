@@ -9,16 +9,30 @@ import type { Message } from './types/message'
 
 import './App.css'
 
+// App.tsx 顶部，组件外
+const STORAGE_KEY = 'chat_messages'   // 存储聊天记录的 key 名称，可以任意取
+const DEFAULT_MESSAGE: Message = {
+  role: 'assistant',
+  content: '你好，我是AI助手',
+  timestamp: Date.now()   // 这里调用是安全的，因为不在 React 渲染内
+}
+
 function App() {
 
   // 添加loading状态
   const [loading, setLoading] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: 'assistant',
-      content: '你好，我是AI助手'
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      const messagesWithTimestamp = parsed.map((msg: Message) => ({
+        ...msg,
+        timestamp: msg.timestamp ?? Date.now()
+      }))
+      return messagesWithTimestamp
     }
-  ])
+    return [DEFAULT_MESSAGE]
+  })
   // 这是一个处理发送消息的函数，包含以下步骤：
   const handleSend = async (text: string) => {
     setLoading(true)
@@ -28,7 +42,8 @@ function App() {
         ...messages,
         {
           role: 'user',
-          content: text
+          content: text,
+          timestamp: Date.now()
         } as const
       ]
 
@@ -38,7 +53,8 @@ function App() {
         ...prev,
         {
           role: 'assistant',
-          content: ''
+          content: '',
+          timestamp: Date.now()
         }
       ])
 
@@ -50,7 +66,8 @@ function App() {
 
             copy[copy.length - 1] = {
               role: 'assistant',
-              content: text
+              content: text,
+              timestamp: Date.now()
             }
 
             return copy
