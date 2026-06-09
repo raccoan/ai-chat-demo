@@ -1,3 +1,4 @@
+// src/api/chat.ts
 import type { Message } from '../types/message'
 
 export async function sendMessageStream(

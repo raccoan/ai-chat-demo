@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+.docs
+.DS_Store
 
 # Editor directories and files
 .vscode/*
@@ -23,3 +25,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
