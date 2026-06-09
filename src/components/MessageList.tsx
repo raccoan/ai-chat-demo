@@ -8,7 +8,7 @@ import type { Message } from '../types/message'
 interface MessageListProps {
   messages: Message[]
   loading: boolean
-  onRegenerate?: (messageIndex: number) => void   // 新增
+  onRegenerate?: (messageIndex: number) => void   // 保留重新生成回调
 }
 
 function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
@@ -27,7 +27,7 @@ function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
     bottomRef.current?.scrollIntoView({ behavior })
   }
 
-  // 滚动监听
+  // 滚动监听（控制按钮显示）
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -41,7 +41,7 @@ function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
     return () => container.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // 新消息自动滚动
+  // 新消息或 loading 变化时，如果接近底部则自动滚动
   useEffect(() => {
     if (isNearBottom()) scrollToBottom('smooth')
   }, [messages, loading])

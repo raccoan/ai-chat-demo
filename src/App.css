@@ -620,3 +620,48 @@ body {
   background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
+/* 重新生成按钮 */
+.regenerate-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #888;
+  transition: all 0.2s;
+}
+
+.regenerate-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #333;
+}
+
+/* 重命名输入框 */
+.rename-input {
+  background: transparent;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 14px;
+  width: 120px;
+  outline: none;
+}
+
+/* 停止按钮样式（可选） */
+.stop-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* 发送和停止按钮的容器样式已在 InputBox 中定义 */
