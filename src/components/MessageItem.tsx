@@ -23,7 +23,6 @@ const formatTime = (timestamp?: number) => {
 
 
 function MessageItem(props: MessageItemProps) {
-  const time = new Date(props.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
   console.log(props.timestamp, typeof props.timestamp)
   return (
