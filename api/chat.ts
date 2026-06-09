@@ -1,4 +1,4 @@
-// api/chat.ts
+// api/chat.ts 用于处理前端发送的聊天请求，转发到 DeepSeek API，并将流式响应返回给前端
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {

@@ -3,12 +3,14 @@ import type { Message } from '../types/message'
 
 export async function sendMessageStream(
   messages: Message[],
-  onMessage: (text: string) => void
+  onMessage: (text: string) => void,
+  signal?: AbortSignal   // 新增：用于中断请求
 ) {
-  const response = await fetch('/api/chat', {   // 相对路径，Vercel 会自动处理
+  const response = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ messages }),
+    signal,               // 传递 signal
   })
 
   if (!response.body) return
@@ -34,7 +36,9 @@ export async function sendMessageStream(
             fullText += content
             onMessage(fullText)
           }
-        } catch (e) { console.error('解析流式响应失败', e) }
+        } catch (e) {
+          console.error('解析流式响应失败', e)
+        }
       }
     }
   }

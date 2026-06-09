@@ -1,15 +1,15 @@
-// components/MessageItem.tsx
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import { motion } from 'framer-motion'          // ① 导入动画库
-import { FiCopy, FiCheck } from 'react-icons/fi' // ② 复制图标
+import { motion } from 'framer-motion'
+import { FiCopy, FiCheck, FiRefreshCw } from 'react-icons/fi'   // 新增刷新图标
 
 interface MessageItemProps {
   role: 'user' | 'assistant'
   content: string
-  timestamp: number   // 新增时间戳
+  timestamp: number
+  onRegenerate?: () => void   // 新增重新生成回调（仅 assistant）
 }
 
 function MessageItem(props: MessageItemProps) {
@@ -21,19 +21,18 @@ function MessageItem(props: MessageItemProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // 格式化时间
   const timeStr = new Date(props.timestamp).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit'
   })
 
   return (
-    <motion.div                            // ③ 使用 motion.div 实现动画
+    <motion.div
       className={`message ${props.role}`}
-      initial={{ opacity: 0, y: 20 }}     // 初始：透明 + 下移
-      animate={{ opacity: 1, y: 0 }}      // 结束：可见 + 原位
-      transition={{ duration: 0.3 }}      // 动画时长
-      whileHover={{ scale: 1.02 }}        // ④ 悬停时稍微放大（趣味效果）
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      whileHover={{ scale: 1.02 }}
     >
       <div className="message-content">
         <ReactMarkdown
@@ -60,6 +59,12 @@ function MessageItem(props: MessageItemProps) {
           {copied ? <FiCheck /> : <FiCopy />}
           <span>{copied ? '已复制' : '复制'}</span>
         </button>
+        {props.role === 'assistant' && props.onRegenerate && (
+          <button className="regenerate-btn" onClick={props.onRegenerate} title="重新生成">
+            <FiRefreshCw size={16} />
+            <span>重新生成</span>
+          </button>
+        )}
       </div>
     </motion.div>
   )

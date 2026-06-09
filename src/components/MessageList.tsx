@@ -8,9 +8,10 @@ import type { Message } from '../types/message'
 interface MessageListProps {
   messages: Message[]
   loading: boolean
+  onRegenerate?: (messageIndex: number) => void   // 新增
 }
 
-function MessageList({ messages, loading }: MessageListProps) {
+function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const [showScrollBtn, setShowScrollBtn] = useState(false)
@@ -53,6 +54,11 @@ function MessageList({ messages, loading }: MessageListProps) {
           role={msg.role}
           content={msg.content}
           timestamp={msg.timestamp}
+          onRegenerate={
+            msg.role === 'assistant' && onRegenerate
+              ? () => onRegenerate(index)
+              : undefined
+          }
         />
       ))}
 
