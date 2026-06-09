@@ -24,7 +24,10 @@ function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
   }
 
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
-    bottomRef.current?.scrollIntoView({ behavior })
+    bottomRef.current?.scrollIntoView({
+      behavior,
+      block: 'end',
+    })
   }
 
   // 滚动监听（控制按钮显示）
@@ -34,7 +37,7 @@ function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = container
       const distance = scrollHeight - scrollTop - clientHeight
-      setShowScrollBtn(distance > 1000)
+      setShowScrollBtn(distance > 100)
     }
     container.addEventListener('scroll', handleScroll)
     handleScroll()
@@ -43,7 +46,11 @@ function MessageList({ messages, loading, onRegenerate }: MessageListProps) {
 
   // 新消息或 loading 变化时，如果接近底部则自动滚动
   useEffect(() => {
-    if (isNearBottom()) scrollToBottom('smooth')
+    if (!isNearBottom()) return
+
+    requestAnimationFrame(() => {
+      scrollToBottom('smooth')
+    })
   }, [messages, loading])
 
   return (
