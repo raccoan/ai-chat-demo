@@ -113,11 +113,11 @@ export function ChatView({
       prev.map(conv =>
         conv.id === currentConversation.id
           ? {
-            ...conv,
-            messages: conv.messages.map((msg, idx) =>
-              idx === assistantIndex ? { ...msg, content: '' } : msg
-            ),
-          }
+              ...conv,
+              messages: conv.messages.map((msg, idx) =>
+                idx === assistantIndex ? { ...msg, content: '' } : msg
+              ),
+            }
           : conv
       )
     )
@@ -133,11 +133,11 @@ export function ChatView({
           prev.map(conv =>
             conv.id === currentConversation.id
               ? {
-                ...conv,
-                messages: conv.messages.map((msg, idx) =>
-                  idx === assistantIndex ? { ...msg, content: streamText, timestamp: Date.now() } : msg
-                ),
-              }
+                  ...conv,
+                  messages: conv.messages.map((msg, idx) =>
+                    idx === assistantIndex ? { ...msg, content: streamText, timestamp: Date.now() } : msg
+                  ),
+                }
               : conv
           )
         )
